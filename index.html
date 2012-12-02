@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+   
+   <head>
+       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+       <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+       <script src="libs/jquery.sortable.js"></script>
+       <script>
+           var notSoClear = angular.module('notSoClear', []);
+
+       </script>
+       <script src="todoFocus.js"></script>
+       <script src="todoBlur.js"></script>
+       <script src="todoBind.js"></script>
+       <script src="todo.js"></script>
+
+       <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+       <link rel="stylesheet" href="clear.css">
+   </head>
+    
+   <body ng-app='notSoClear'>
+
+       <div ng-controller="TodoCtrl">
+
+
+           <ul class="unstyled notSoClear" id="clearUL">
+              <li ng-repeat="todo in todos" gf-tap='editTodo(todo)' ng-class="{completed: todo.completed, editing: todo == editedTodo}">
+
+                  <div class="todoTitle">{{todo.title}}</div>
+
+                  <form>
+                      <input class="edit" ng-model="todo.title" todo-blur="doneEditing(todo)" todo-focus="todo == editedTodo">
+                  </form>
+              </li>
+
+
+           </ul>
+
+
+           <form ng-submit="addTodo()">
+               <input type="text" ng-model="todoText" size="30" placeholder="add new">
+           </form>
+
+       </div>
+       
+   </body>
+    
+</html>

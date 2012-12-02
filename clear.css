@@ -1,0 +1,134 @@
+body{
+    background: #000000;
+}
+
+ul.notSoClear li{
+    background-color: #dc1d17;
+
+    border-top: 1px solid #e04423;
+    border-bottom: 1px solid #c20013;
+    font-size: 26px;
+    color: white;
+    text-shadow: 0.1em 0.1em #333;
+    line-height: 60px;
+    height: 60px;
+    padding-left: 20px;
+    width: 100%;
+}
+
+ul.notSoClear li:nth-child(2){
+    background: #df3a18;
+    border-top: 1px solid #e04423;
+    border-bottom: 1px solid #c20013;
+}
+ul.notSoClear li:nth-child(3){
+
+
+    background: #e25819;
+    border-top: 1px solid #e36024;
+    border-bottom: 1px solid #ca4f16;
+}
+ul.notSoClear li:nth-child(4){
+
+
+    background: #e4751a;
+    border-top: 1px solid #e57c25;
+    border-bottom: 1px solid #cc6917;
+}
+ul.notSoClear li:nth-child(5){
+    background: #e7921b;
+    border-top: 1px solid #e89726;
+    border-bottom: 1px solid #cf8318;
+}
+
+ul.notSoClear li:nth-child(6){
+    background: #eaaf1c;
+    border-top: 1px solid #ebb327;
+    border-bottom: 1px solid #d29d19;
+}
+
+ul.notSoClear li.todoDone{
+    background: #0faa15;
+    border-top: 1px solid #1bae20;
+    border-bottom: 1px solid #0d9812;
+
+
+}
+
+ul.notSoClear li.todoDragVert{
+    -webkit-box-shadow: 0px 2px 20px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 2px 20px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 2px 20px rgba(50, 50, 50, 0.75);
+    z-index: 99;
+
+}
+
+
+
+ul.notSoClear li.todoCompleted{
+    background: #000000;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    text-decoration: line-through;
+    color: gray;
+}
+
+ul.notSoClear li input{
+    line-height: 58px;
+    height: 58px;
+    border: none;
+    font-size: 26px;
+    padding-left: 20px;
+    width: 600px;
+    background: white;
+    color: #fff;
+    text-shadow: 0.1em 0.1em #333;
+
+}
+ul.notSoClear li input:focus{
+    outline: none;
+}
+
+
+.done-true {
+    text-decoration: line-through;
+    color: grey;
+}
+
+
+li {
+    position: relative;
+
+
+}
+
+li.editing .edit {
+    display: block;
+
+}
+li.editing .todoTitle{ visibility: hidden;}
+
+
+#new-todo,
+.edit {
+    position: absolute;
+
+}
+
+ li .edit {
+    display: none;
+
+}
+
+li form {
+    display: block;
+    margin-top: 0em;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+
+
+}
+
+.showingEdit{ background-color: green;}
