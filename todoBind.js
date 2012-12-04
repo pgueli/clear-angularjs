@@ -445,7 +445,8 @@ notSoClear.directive('gfTap', function() {
                                 $element.addClass("todoCompleted");
 
 
-                                if ($scope.isiPad) { playAudio(ding.mp3); }
+                                //if ($scope.isiPad) { playAudio(ding.mp3); }
+
                                 function playAudio(url) {
                                     // Play the audio file at url
                                     var my_media = new Media(url,
