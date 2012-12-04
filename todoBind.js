@@ -388,14 +388,14 @@ notSoClear.directive('gfTap', function() {
             function playCompleteAudio(){
 
 
-                if ($scope.isiPad) {
+                //if ($scope.isiPad) {
                     console.log("soundCount: "+ soundCount);
                     playAudio(soundsComplete[soundCount]);
                     soundCount = soundCount + 1;
                     //console.log("&&&&&&&&&&&&&&&&n soundCount: "+ soundCount);
 
                     if (soundCount > 4) soundCount = 0;
-                }
+                //}
 
 
 
