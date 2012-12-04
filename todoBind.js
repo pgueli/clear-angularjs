@@ -64,6 +64,8 @@ notSoClear.directive('gfTap', function() {
             var addLIIndex = 0;
             var moving = false;
 
+            var soundsComplete = ["sounds/ding-0.mp3", "sounds/ding-1.mp3", "sounds/ding-2.mp3", "sounds/ding-3.mp3", "sounds/ding-4.mp3"];
+
 
             var liIndexMult = 0;
 
@@ -366,6 +368,41 @@ notSoClear.directive('gfTap', function() {
             }
 
 
+            function playAudio(url) {
+                // Play the audio file at url
+                var my_media = new Media(url,
+                    // success callback
+                    function() {
+                        console.log("playAudio():Audio Success");
+                    },
+                    // error callback
+                    function(err) {
+                        console.log("playAudio():Audio Error: "+err);
+                    });
+
+                // Play audio
+                my_media.play();
+            }
+
+            soundCount = 1;
+            function playCompleteAudio(){
+
+
+                if ($scope.isiPad) {
+                    console.log("soundCount: "+ soundCount);
+                    playAudio(soundsComplete[soundCount]);
+                    soundCount = soundCount + 1;
+                    //console.log("&&&&&&&&&&&&&&&&n soundCount: "+ soundCount);
+
+                    if (soundCount > 4) soundCount = 0;
+                }
+
+
+
+
+
+            }
+
             function checkPosition(pos){
 
                 if ( pos > actionOpenWidth){
@@ -445,23 +482,10 @@ notSoClear.directive('gfTap', function() {
                                 $element.addClass("todoCompleted");
 
 
-                                //if ($scope.isiPad) { playAudio(ding.mp3); }
 
-                                /*function playAudio(url) {
-                                    // Play the audio file at url
-                                    var my_media = new Media(url,
-                                        // success callback
-                                        function() {
-                                            console.log("playAudio():Audio Success");
-                                        },
-                                        // error callback
-                                        function(err) {
-                                            console.log("playAudio():Audio Error: "+err);
-                                        });
+                                playCompleteAudio();
 
-                                    // Play audio
-                                    my_media.play();
-                                }*/
+
 
 
 
