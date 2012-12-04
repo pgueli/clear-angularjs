@@ -1,51 +1,11 @@
 notSoClear.directive('gfTap', function() {
-   /* return function(scope, element, attrs) {
-        var tapping;
-        tapping = false;
-        element.bind('click', function() {
-            console.log("clicked");
-            console.log(element.length);
 
-            return scope.$apply(attrs['gfTap']);
-            //return tapping = true;
-        });
-        element.bind('touchstart', function() {
-            return tapping = true;
-        });
-        element.bind('touchmove', function() {
-            return tapping = false;
-        });
-        return element.bind('touchend', function() {
-            if (tapping) {
-                return scope.$apply(attrs['gfTap']);
-            }
-        });
-    */
    return{
        //transclude: true,
        //scope: {},
         controller: function($scope, $element, $attrs){
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-           // console.log("edit: "+ todo.title);
-           // $scope.editedTodo = todo;
-
-
-
-           // console.log($element);
 
             var gestureStarted = false;
             var bodyOffset = 0;
@@ -63,13 +23,15 @@ notSoClear.directive('gfTap', function() {
             var newLIIndexPrev = 0;
             var addLIIndex = 0;
             var moving = false;
-
+            var msOut = false;
             var soundsComplete = ["sounds/ding-0.mp3", "sounds/ding-1.mp3", "sounds/ding-2.mp3", "sounds/ding-3.mp3", "sounds/ding-4.mp3"];
-
-
             var liIndexMult = 0;
 
+
             setupEventHandlers();
+
+
+
 
             function setupEventHandlers(){
                 //console.log("in  setupEventHandlers;")
@@ -77,16 +39,7 @@ notSoClear.directive('gfTap', function() {
                 START_EVENT = this.touchSupported ? 'touchstart' : 'mousedown';
                 MOVE_EVENT = this.touchSupported ? 'touchmove' : 'mousemove';
                 END_EVENT = this.touchSupported ? 'touchend' : 'mouseup';
-
-
-
-
-
-
-
-
-
-
+                MOUSEOUT_EVENT = this.touchSupported ? 'mouseout' : 'mouseout';
 
 
                 $element.bind('click', function() {
@@ -98,50 +51,32 @@ notSoClear.directive('gfTap', function() {
                     }
                 });
 
-                /*$element.bind('touchstart', function() {
-                    console.log("touchstart");
-                    return tapping = true;
-                });
-
-                return $element.bind('touchend', function() {
-                    console.log("touchend");
-                    if (tapping) {
-                        return $scope.$apply($attrs['gfTap']);
-                    }
-                });
-                */
-
-
-
-
-
                 var self = this;
                 var func = function( event ){ onTouchStart(event), true };
 
                 $element.bind(this.START_EVENT,func );
-               // mainArea.addEventListener( this.START_EVENT, func, false );
             }
 
 
             function beginDragVert(){
-                console.log("in begin drag vert.")
                 dragDirection = "vertical";
                 $element.addClass("todoDragVert");
-
             }
 
+            function onMouseOut(event) {
+                msOut = true;
+                console.log("msOut: "+ msOut);
+            }
 
             function onTouchStart(event) {
                 console.log("onTouchStart");
-
-
-                console.log( event.type );
                 gbStillTouching = true;
-
                 var originalTopPosition = getTouchCoordinates( event );
                 var topY = originalTopPosition.y;
                 console.log(topY);
 
+
+                generateCheckandDelete($element[0].offsetTop);
 
                 gnStartTime = Number(new Date());
                 //setTimeout(function() {SetOpacity(eID, opacity);}, timer * 30);
@@ -161,24 +96,20 @@ notSoClear.directive('gfTap', function() {
 
                     liIndex = $('#clearUL li').index($element[0]);
                     liIndex = liIndex + 1;
-                    //var tt = $element[0].offsetTop / liHeight;
-
-                    console.log("origial liIndex: "+ liIndex);
 
                 }
 
-
                 this.gestureStartPosition = getTouchCoordinates( event );
-
                 var self = this;
                 this.touchMoveHandler = function( event ){ onTouchMove(event) };
                 this.touchUpHandler = function( event ){ onTouchEnd(event) };
-
+                this.mouseOutHandler = function( event ){ onMouseOut(event) };
                 $element.bind( this.MOVE_EVENT, this.touchMoveHandler, false );
                 $element.bind( this.END_EVENT, this.touchUpHandler, false );
-
+                $element.bind( this.MOUSEOUT_EVENT, this.mouseOutHandler, false );
 
             }
+
 
              function onTouchMove(event) {
 
@@ -237,6 +168,7 @@ notSoClear.directive('gfTap', function() {
                     }else{
                         moving = true;
                     }
+
 
 
 
@@ -326,6 +258,7 @@ notSoClear.directive('gfTap', function() {
 
                 }else{
                    //HORIZONTAL
+                    //msOut = false;
                     var deltaX = (currentPosition.x - gestureStartPosition.x);
                     var deltaY = (currentPosition.y - gestureStartPosition.y);
 
@@ -341,6 +274,33 @@ notSoClear.directive('gfTap', function() {
                     }else{
                         gbMove = true;
                     }
+
+                    //for check
+                    resetTranslate3D(".checkIcon");
+                    resetTranslate3D(".deleteIcon");
+
+                    if(targetX > 0){
+                         $(".checkIcon").css("opacity", (targetX/actionOpenWidth));
+                        if (targetX > actionOpenWidth ){
+                            moveCheckX = targetX - actionOpenWidth;
+                            $(".checkIcon").css("-webkit-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                            $(".checkIcon").css("-moz-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                            $(".checkIcon").css("transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                        }
+                    }else{
+                        //DELETE
+                       // console.log(-targetX/actionOpenWidth);
+
+                        $(".deleteIcon").css("opacity", (-targetX/actionOpenWidth));
+                        if (targetX < (-actionOpenWidth) ){
+                            moveDelX = targetX + actionOpenWidth;
+                            $(".deleteIcon").css("-webkit-transform", "translate3d(" + moveDelX + "px,0,0)" );
+                            $(".deleteIcon").css("-moz-transform", "translate3d(" + moveDelX + "px,0,0)" );
+                            $(".deleteIcon").css("transform", "translate3d(" + moveDelX + "px,0,0)" );
+                        }
+
+                    }
+
 
                     //$element.append("<span>askajksj</span>");
 
@@ -360,6 +320,12 @@ notSoClear.directive('gfTap', function() {
                     $element.css("-moz-transform", "translate3d(" + targetX + "px,0,0)" );
                     $element.css("transform", "translate3d(" + targetX + "px,0,0)" );
 
+                    if(msOut){
+                       //console.log("snapping");
+                       //snapToPosition();
+                    }
+
+
                 }
 
                 checkPosition(targetX);
@@ -367,9 +333,16 @@ notSoClear.directive('gfTap', function() {
                 this.gestureStartPosition = currentPosition;
             }
 
+            function resetTranslate3D(el){
+                $(el).css("-webkit-transform", "translate3d(0,0,0)");
+                $(el).css("-moz-transform", "translate3d(0,0,0)");
+                $(el).css("transform", "translate3d(0,0,0)");
+            }
+
+
 
             function playAudio(url) {
-                // Play the audio file at url
+
                 var my_media = new Media(url,
                     // success callback
                     function() {
@@ -382,26 +355,31 @@ notSoClear.directive('gfTap', function() {
 
                 // Play audio
                 my_media.play();
+
+
+            }
+
+            function generateCheckandDelete(yPos){
+                $(".checkIcon").css("top", yPos +"px");
+                $(".deleteIcon").css("top", yPos +"px");
+
             }
 
             soundCount = 1;
+
+
             function playCompleteAudio(){
 
-
-                //if ($scope.isiPad) {
+                try {
                     console.log("soundCount: "+ soundCount);
                     playAudio(soundsComplete[soundCount]);
                     soundCount = soundCount + 1;
-                    //console.log("&&&&&&&&&&&&&&&&n soundCount: "+ soundCount);
-
                     if (soundCount > 4) soundCount = 0;
-                //}
+                }catch(e){
 
-
-
-
-
+                }
             }
+
 
             function checkPosition(pos){
 
@@ -416,6 +394,27 @@ notSoClear.directive('gfTap', function() {
                 }
             }
 
+
+            function moveRestOfLIUp(fromLIIndex, toLIIndex, LIHght){
+                //move rest of the items up
+                $("li").addClass("movingLIUpOne");
+                console.log(" moveRestOfLIUp(" + fromLIIndex + ", " + toLIIndex + ", " + LIHght + "); ");
+
+                for (var i=(fromLIIndex); i < (toLIIndex); i++)
+                {
+                    $("#clearUL li:nth-child("+i+")").css("-webkit-transform", "translate3d(0," + (-LIHght) + "px,0)" );
+                    $("#clearUL li:nth-child("+i+")").css("-moz-transform", "translate3d(0," + (-LIHght) + "px,0)" );
+                    $("#clearUL li:nth-child("+i+")").css("transform", "translate3d(0," + (-LIHght) + "px,0)" );
+                }
+                //$("#clearUL li").removeClass("movingLIUpOne");
+
+                setTimeout(function() {
+                    resetTranslate3D(".checkIcon");
+                    $("li").removeClass("movingLIUpOne");
+                 //   resetTranslate3D("li");
+                }, 500);
+
+            }
 
             function snapToPosition() {
 
@@ -436,7 +435,8 @@ notSoClear.directive('gfTap', function() {
 
                     dragDirection = "horizontal";
 
-                    $("#clearUL li").css("-webkit-transform", "translate3d(0,0,0)" );
+                    //$("#clearUL li").css("-webkit-transform", "translate3d(0,0,0)" );
+                    resetTranslate3D("#clearUL li");
                     $element.removeClass("todoDragVert");
 
                     $scope.todos.move((liIndex-1),(newLIIndex-1));
@@ -447,21 +447,47 @@ notSoClear.directive('gfTap', function() {
                 }else{
                     //HORIZONTAL
                     $element.addClass("shiftingLIHorz");
+                    liIndex = $('#clearUL li').index($element[0]);
+                    lastIndex = $scope.todos.length;
+
 
                     if( currentPosition < (-actionOpenWidth)) {
 
                         //DELETE
-                        liIndex = $('#clearUL li').index($element[0]);
+                        //moveRestOfLIUp(liIndex, lastIndex, liHeight);
+                        //shift row to the left
+                        screenWidth = $(window).width();
+                        $element.css("-webkit-transform", "translate3d(-"+screenWidth+"px,0,0)" );
+                        $(".checkIcon").css("opacity", "0");
+                        $(".deleteIcon").addClass("shiftingLIHorz").css("-webkit-transform", "translate3d(-"+screenWidth+"px,0,0)");
+
                         $scope.todos.splice(liIndex,1);
-                        $scope.$apply();
+                        //$scope.$apply();
+                       // setTimeout(function() {$scope.$apply();}, 1500);
+                        setTimeout(function() {
+                            //$element.remove();
+                            $(".deleteIcon").removeClass("shiftingLIHorz");
+                            //shift rows up
+                            moveRestOfLIUp(liIndex+2, lastIndex+1, liHeight);
+                        }, 200);
+
+                        setTimeout(function() {
+                            $("li").removeClass("movingLIUpOne");
+                            resetTranslate3D("li");
+                            $scope.$apply();
+
+                        }, 600);
+
+
 
 
                     } else if ( currentPosition < actionOpenWidth ) {
 
                         //DO NOTHING
-                        $element.css("-webkit-transform", "translate3d(0,0,0)" );
                         console.log("to short");
-                        //Inview.app.model.set('isNavOpen', '0');
+                        $element.removeClass("shiftingLIHorz");
+                        $element.css("-webkit-transform", "translate3d(0,0,0)" );
+
                         targetX = 0;
                         checkPosition(targetX);
 
@@ -470,30 +496,22 @@ notSoClear.directive('gfTap', function() {
                         //$(this.el).css("-webkit-transform", "translate3d(0,0,0)" );
                         //Inview.app.model.set('isNavOpen', '1');
                         //targetX = sidebarWidth;
-
                         //var otherLI = $("#clearUL li:nth-child("+liIndex+")");
 
+                        resetTranslate3D(".checkIcon");
+                        $(".checkIcon").css("opacity", "0");
 
-                        liIndex = $('#clearUL li').index($element[0]);
                         count = 0
                         $element.bind("webkitTransitionEnd oTransitionEnd otransitionend transitionend msTransitionEnd", function(){
 
                             if(count == 0){
                                 $element.addClass("todoCompleted");
 
-
-
                                 playCompleteAudio();
-
-
-
-
-
-
                                 console.log(liIndex);
                                 console.log($scope.todos[liIndex]);
 
-                                lastIndex = $scope.todos.length;
+
                                 lastIndexB = lastIndex - 1;
                                 liIndexB = liIndex ;
 
@@ -512,12 +530,8 @@ notSoClear.directive('gfTap', function() {
                                 $element.removeClass("shiftingLIHorz");
 
                                 //move rest of the items up
-                                for (var i=(liIndex+2); i < (lastIndex+1); i++)
-                                {
-                                    $("#clearUL li:nth-child("+i+")").css("-webkit-transform", "translate3d(0," + (-liHeight) + "px,0)" );
-                                    $("#clearUL li:nth-child("+i+")").css("-moz-transform", "translate3d(0," + (-liHeight) + "px,0)" );
-                                    $("#clearUL li:nth-child("+i+")").css("transform", "translate3d(0," + (-liHeight) + "px,0)" );
-                                }
+                                moveRestOfLIUp(liIndex+2, lastIndex+1, liHeight);
+
 
 
                                 setTimeout(function() {reOrder();}, 500);
@@ -525,7 +539,8 @@ notSoClear.directive('gfTap', function() {
                                 function reOrder(){
                                     $element.removeClass("shiftingLIHorz");
                                     $element.removeClass("shiftingLIDelete");
-                                    $("#clearUL li").css("-webkit-transform", "translate3d(0,0,0)" );
+                                    //$("#clearUL li").css("-webkit-transform", "translate3d(0,0,0)" );
+                                    resetTranslate3D("#clearUL li");
                                     console.log(".move("+liIndexB+","+lastIndexB+");");
                                     $scope.todos.move(liIndexB, lastIndexB);
                                     $scope.$apply();

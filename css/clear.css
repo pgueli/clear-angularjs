@@ -5,29 +5,37 @@ body{
 }
 
 ul.notSoClear li{
-    background-color: #dc1d17;
-
-    border-top: 1px solid #e04423;
-    border-bottom: 1px solid #c20013;
+    background: #eaaf1c;
+    border-top: 1px solid #ebb327;
+    border-bottom: 1px solid #d29d19;
     font-size: 26px;
     color: white;
     text-shadow: 0.1em 0.1em #333;
     line-height: 60px;
     height: 60px;
-    padding-left: 20px;
+
     width: 100%;
     -webkit-user-select:none;
-
+    z-index: 2;
 }
+
 ul.notSoClear li.shiftingLI{
     -webkit-transition-duration: 0.4s;
 }
-
-ul.notSoClear li.shiftingLIHorz{
+.shiftingLIHorz{
      -webkit-transition-duration: 0.2s;
  }
+.movingLIUpOne{
+    -webkit-transition-duration: 0.5s;
+}
 ul.notSoClear li.shiftingLIDelete{
     -webkit-transition-duration: 0.5s;
+}
+
+ul.notSoClear li:nth-child(1){
+    background-color: #dc1d17;
+    border-top: 1px solid #e04423;
+    border-bottom: 1px solid #c20013;
 }
 
 ul.notSoClear li:nth-child(2){
@@ -61,6 +69,8 @@ ul.notSoClear li:nth-child(6){
     border-bottom: 1px solid #d29d19;
 }
 
+
+
 ul.notSoClear li.todoDone{
     background: #0faa15;
     border-top: 1px solid #1bae20;
@@ -79,6 +89,10 @@ ul.notSoClear li.todoDragVert{
 
 }
 
+.todoTitle{
+    padding-left: 20px;
+}
+
 .todoCheck{
 
     height: 20px;
@@ -86,8 +100,6 @@ ul.notSoClear li.todoDragVert{
     background-color: green;
     position: absolute;
     left: 0px;
-
-
 }
 
 ul.notSoClear li.todoCompleted{
@@ -156,4 +168,28 @@ li form {
 
 }
 
-.showingEdit{ background-color: green;}
+
+
+
+.checkIcon, .deleteIcon{
+    background-color: green;
+    margin-top:10px;
+    z-index:1;
+    top: 0px;
+    width: 50px;
+    height: 43px;
+    opacity: 0;
+    position: absolute;
+    background: url('../imgs/icons.png');
+}
+
+.checkIcon{
+    left: 10px;
+    background-position: 0px 43px;
+}
+
+
+
+.deleteIcon{
+    right: 2px;
+}
