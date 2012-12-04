@@ -2,6 +2,10 @@
 
 body{
     background: #000000;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
 }
 
 ul.notSoClear li{
@@ -16,9 +20,13 @@ ul.notSoClear li{
 
     width: 100%;
     -webkit-user-select:none;
-    z-index: 2;
-}
+    z-index: 3;
 
+}
+ul.movingUL {
+    -webkit-transition-duration: 0.5s;
+
+}
 ul.notSoClear li.shiftingLI{
     -webkit-transition-duration: 0.4s;
 }
@@ -117,7 +125,7 @@ ul.notSoClear li input{
     font-size: 26px;
     padding-left: 20px;
     width: 600px;
-    background: white;
+    background: transparent;
     color: #fff;
     text-shadow: 0.1em 0.1em #333;
 
@@ -192,4 +200,9 @@ li form {
 
 .deleteIcon{
     right: 2px;
+}
+
+#bodRst{
+    width: 100%;
+    height: 1700px;
 }

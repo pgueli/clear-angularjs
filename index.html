@@ -38,7 +38,7 @@
 
                   <div class="todoTitle">{{todo.title}}</div>
 
-                  <form>
+                  <form ng-submit="doneEditing(todo)" >
                       <input class="edit" ng-model="todo.title" todo-blur="doneEditing(todo)" todo-focus="todo == editedTodo">
                   </form>
               </li>
@@ -47,14 +47,14 @@
            </ul>
 
 
-           <form ng-submit="addTodo()">
-               <input type="text" ng-model="todoText" size="30" placeholder="add new">
-           </form>
+            <div id="bodRst">
 
-
-           <div>
-               <div ng-repeat="todoa in todos" style="color: white;">{{todoa.title}} : {{todoa.done}}</div>
-           </div>
+                <!--
+               <div>
+                   <div ng-repeat="todoa in todos" style="color: white;">{{todoa.title}} : {{todoa.done}}</div>
+               </div>
+                -->
+            </div>
 
        </div>
 

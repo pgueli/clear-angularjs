@@ -16,7 +16,7 @@ notSoClear.directive('gfTap', function() {
             var gbStillTouching = false;
             var dragDirection = "horizontal"; //horizontal || vertical
             var onHoldDelay = 1000; //ms
-            var liHeight = 62;
+            var liHeight = $scope.liHeight;
             var liIndex = 0;
             var liMoving = false;
             var newLIIndex = 0;
@@ -55,6 +55,8 @@ notSoClear.directive('gfTap', function() {
                 var func = function( event ){ onTouchStart(event), true };
 
                 $element.bind(this.START_EVENT,func );
+
+
             }
 
 
@@ -68,6 +70,8 @@ notSoClear.directive('gfTap', function() {
                 console.log("msOut: "+ msOut);
             }
 
+
+
             function onTouchStart(event) {
                 console.log("onTouchStart");
                 gbStillTouching = true;
@@ -75,6 +79,10 @@ notSoClear.directive('gfTap', function() {
                 var topY = originalTopPosition.y;
                 console.log(topY);
 
+                liIndex = $('#clearUL li').index($element[0]);
+                liIndex = liIndex + 1;
+                isDone = $scope.todos[liIndex-1].done;
+                console.log("isDone "+isDone);
 
                 generateCheckandDelete($element[0].offsetTop);
 
@@ -103,10 +111,10 @@ notSoClear.directive('gfTap', function() {
                 var self = this;
                 this.touchMoveHandler = function( event ){ onTouchMove(event) };
                 this.touchUpHandler = function( event ){ onTouchEnd(event) };
-                this.mouseOutHandler = function( event ){ onMouseOut(event) };
+                //this.mouseOutHandler = function( event ){ onMouseOut(event) };
                 $element.bind( this.MOVE_EVENT, this.touchMoveHandler, false );
                 $element.bind( this.END_EVENT, this.touchUpHandler, false );
-                $element.bind( this.MOUSEOUT_EVENT, this.mouseOutHandler, false );
+                //$element.bind( this.MOUSEOUT_EVENT, this.mouseOutHandler, false );
 
             }
 
@@ -280,16 +288,35 @@ notSoClear.directive('gfTap', function() {
                     resetTranslate3D(".deleteIcon");
 
                     if(targetX > 0){
-                         $(".checkIcon").css("opacity", (targetX/actionOpenWidth));
-                        if (targetX > actionOpenWidth ){
-                            moveCheckX = targetX - actionOpenWidth;
-                            $(".checkIcon").css("-webkit-transform", "translate3d(" + moveCheckX + "px,0,0)" );
-                            $(".checkIcon").css("-moz-transform", "translate3d(" + moveCheckX + "px,0,0)" );
-                            $(".checkIcon").css("transform", "translate3d(" + moveCheckX + "px,0,0)" );
+
+
+
+                        if(isDone){
+                            $(".checkIcon").css("opacity", (1-(targetX/actionOpenWidth)));
+
+                            if (targetX > actionOpenWidth ){
+                                $element.removeClass("todoCompleted");
+                                $element.removeClass("todoDone");
+                                moveCheckX = targetX - actionOpenWidth;
+                                $(".checkIcon").css("-webkit-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                                $(".checkIcon").css("-moz-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                                $(".checkIcon").css("transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                            }
+
+                        }else{
+                            $(".checkIcon").css("opacity", (targetX/actionOpenWidth));
+                            if (targetX > actionOpenWidth ){
+                                $element.addClass("todoDone");
+                                moveCheckX = targetX - actionOpenWidth;
+                                $(".checkIcon").css("-webkit-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                                $(".checkIcon").css("-moz-transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                                $(".checkIcon").css("transform", "translate3d(" + moveCheckX + "px,0,0)" );
+                            }
                         }
+
+
                     }else{
                         //DELETE
-                       // console.log(-targetX/actionOpenWidth);
 
                         $(".deleteIcon").css("opacity", (-targetX/actionOpenWidth));
                         if (targetX < (-actionOpenWidth) ){
@@ -343,16 +370,7 @@ notSoClear.directive('gfTap', function() {
 
             function playAudio(url) {
 
-                var my_media = new Media(url,
-                    // success callback
-                    function() {
-                        console.log("playAudio():Audio Success");
-                    },
-                    // error callback
-                    function(err) {
-                        console.log("playAudio():Audio Error: "+err);
-                    });
-
+                var my_media = new Media(url);
                 // Play audio
                 my_media.play();
 
@@ -384,9 +402,9 @@ notSoClear.directive('gfTap', function() {
             function checkPosition(pos){
 
                 if ( pos > actionOpenWidth){
-                    if (!$element.hasClass("todoDone")){
-                        $element.addClass("todoDone");
-                    }
+                   // if (!$element.hasClass("todoDone")){
+                  //      $element.addClass("todoDone");
+                  //  }
                 }else{
                     if ($element.hasClass("todoDone")){
                         $element.removeClass("todoDone");
