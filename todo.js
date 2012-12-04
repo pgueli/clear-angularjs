@@ -15,6 +15,9 @@ Array.prototype.move = function (old_index, new_index) {
 
 function TodoCtrl($scope) {
 
+    var ua = navigator.userAgent;
+    $scope.isiPad = /iPad/i.test(ua) || /iPhone OS 3_1_2/i.test(ua) || /iPhone OS 3_2_2/i.test(ua);
+
     $scope.editedTodo = null;
    // $scope.showingEdit = true;
 

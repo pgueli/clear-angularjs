@@ -3,12 +3,18 @@
    
    <head>
 
-       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+       <meta name="apple-mobile-web-app-capable" content="yes" />
+       <meta http-equiv="X-UA-Compatible" content="chrome=1">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+       <meta name="apple-mobile-web-app-capable" content="yes">
 
-       <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-
+       <script src="libs/angular.min.js"></script>
+       <script src="libs/jquery-1.8.3.min.js"></script>
        <script>
+           var App = App || {};
            var notSoClear = angular.module('notSoClear', []);
+
+
 
        </script>
        <script src="todoFocus.js"></script>
@@ -16,8 +22,8 @@
        <script src="todoBind.js"></script>
        <script src="todo.js"></script>
 
-       <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
-       <link rel="stylesheet" href="clear.css">
+       <link rel="stylesheet" href="css/bootstrap.css">
+       <link rel="stylesheet" href="css/clear.css">
    </head>
     
    <body ng-app='notSoClear' ondragstart='return false' onselectstart='return false'>
