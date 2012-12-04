@@ -14,6 +14,17 @@ ul.notSoClear li{
     height: 60px;
     padding-left: 20px;
     width: 100%;
+
+}
+ul.notSoClear li.shiftingLI{
+    -webkit-transition-duration: 0.4s;
+}
+
+ul.notSoClear li.shiftingLIHorz{
+     -webkit-transition-duration: 0.2s;
+ }
+ul.notSoClear li.shiftingLIDelete{
+    -webkit-transition-duration: 0.5s;
 }
 
 ul.notSoClear li:nth-child(2){
@@ -51,6 +62,7 @@ ul.notSoClear li.todoDone{
     background: #0faa15;
     border-top: 1px solid #1bae20;
     border-bottom: 1px solid #0d9812;
+    z-index: 99;
 
 
 }
@@ -60,10 +72,20 @@ ul.notSoClear li.todoDragVert{
     -moz-box-shadow:    0px 2px 20px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 2px 20px rgba(50, 50, 50, 0.75);
     z-index: 99;
+    -webkit-transition-duration: 0s;
 
 }
 
+.todoCheck{
 
+    height: 20px;
+    width: 20px;
+    background-color: green;
+    position: absolute;
+    left: 0px;
+
+
+}
 
 ul.notSoClear li.todoCompleted{
     background: #000000;

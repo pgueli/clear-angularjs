@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns	= "http://www.w3.org/ns/widgets"
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		    = "com.errh.ahh"
+	version 	= "1.0">
+
+	<name>No So Clear</name>
+
+	<description>
+        Clear Replication in HTML and Angular
+	</description>
+
+	<author href="http://www.none.com" email="pgueli@gmail.com">
+		Paul Gueli
+	</author>
+	<preference name="phonegap-version" value="2.1.0" />
+	<preference name="orientation" value="portrait" />
+  	
+  	<icon src="imgs/spashScreens/icon_72.png" width="72" height="72" />
+	
+	<gap:splash src="imgs/spashScreens/ipad-landscape.png" />
+	<gap:splash src="imgs/spashScreens/ipad-landscape.png" width="1024" height="768" />
+	<gap:splash src="imgs/spashScreens/ipad-port.png" width="768" height="1024" />
+  
+</widget>

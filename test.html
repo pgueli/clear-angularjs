@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Angular-UI Sortable Demo - jsFiddle demo by g</title>
+  
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
+
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="clear.css">
+  
+    
+    
+      <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    
+  
+  <style type='text/css'>
+    .item, .placeholder {
+    padding: 2px;
+    width: 50px;
+    height: 20px;
+    border: 1px solid #333;
+    background: #EEE;
+}
+
+.placeholder {
+    background: #AEF;
+}
+
+  </style>
+  
+</head>
+<body>
+  <div ng:controller="controller">
+    <ul ui:sortable ng:model="list">
+        <li ng:repeat="item in list" class="item">{{item}}</li>
+    </ul>
+    <hr />
+    <div ng:repeat="item in list">{{item}}</div>
+</div>
+
+<script src="http://code.angularjs.org/1.0.2/angular.min.js"></script>
+<script src="https://raw.github.com/angular-ui/angular-ui/master/build/angular-ui.min.js"></script>
+
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+var myapp = angular.module('myapp', ['ui']);
+
+myapp.controller('controller', function ($scope) {
+    $scope.list = ["one", "two", "three", "four", "five", "six"];
+});
+
+angular.bootstrap(document, ['myapp']);
+
+//]]>  
+
+</script>
+
+
+</body>
+
+
+</html>
+
