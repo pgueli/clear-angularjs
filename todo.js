@@ -23,7 +23,7 @@ function TodoCtrl($scope) {
 
     $scope.todos = [
         {
-            title: 'learn angular',
+            title: 'learn angular4',
             done:false,
             liID: 1
         },

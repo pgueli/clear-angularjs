@@ -447,7 +447,7 @@ notSoClear.directive('gfTap', function() {
 
                                 //if ($scope.isiPad) { playAudio(ding.mp3); }
 
-                                function playAudio(url) {
+                                /*function playAudio(url) {
                                     // Play the audio file at url
                                     var my_media = new Media(url,
                                         // success callback
@@ -461,7 +461,7 @@ notSoClear.directive('gfTap', function() {
 
                                     // Play audio
                                     my_media.play();
-                                }
+                                }*/
 
 
 

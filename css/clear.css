@@ -1,3 +1,15 @@
+*{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -khtml-user-drag: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+}
+
 body{
     background: #000000;
 }
