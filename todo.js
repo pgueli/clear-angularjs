@@ -9,7 +9,7 @@ Array.prototype.move = function (old_index, new_index) {
         }
     }
     this.splice(new_index, 0, this.splice(old_index, 1)[0]);
-    return this; // for testing purposes
+    return this;
 };
 
 
@@ -54,7 +54,7 @@ function TodoCtrl($scope) {
             liID: 6
         },
         {
-            title: 'Get frozen in carbinite',
+            title: 'Get frozen in carbonite',
             done: false,
             liID: 7
         }
@@ -66,25 +66,22 @@ function TodoCtrl($scope) {
 
 
     $scope.delTodo = function( todo ){
-        console.log("deleting: "+ todo.title);
         todos.splice(todos.indexOf(todo), 1);
     };
 
 
     $scope.editTodo = function( todo ){
-        console.log("edit: "+ todo.title);
+
         $scope.editedTodo = todo;
 
         var indexOfEdit = $scope.todos.indexOf(todo);
-
-        console.log("indexOfEdit: " + indexOfEdit);
         moveLIAmount = -($scope.liHeight * indexOfEdit);
-        console.log(moveLIAmount);
         $("ul.notSoClear").addClass("movingUL");
         $("ul.notSoClear").css("-webkit-transform", "translate3d(0,"+moveLIAmount+"px,0)");
-
         $("ul.notSoClear li").css("opacity", ".25");
         $("ul.notSoClear li:nth-child("+(indexOfEdit+1)+")").css("opacity", "1");
+
+
 
     };
 
@@ -93,16 +90,16 @@ function TodoCtrl($scope) {
           title:$scope.todoText,
           done: false
       });
-      $scope.todoText = '';
     };
 
 
 
     $scope.doneEditing = function( todo ) {
-        console.log("done edit");
         $("ul.notSoClear").css("-webkit-transform", "translate3d(0,0,0)");
         $scope.editedTodo = null;
         $("ul.notSoClear li").css("opacity", "1");
+        $('input').blur();
+
         if ( !todo.title ) {
             $scope.delTodo(todo);
         }
@@ -112,7 +109,6 @@ function TodoCtrl($scope) {
 
 
     $scope.createNewLIItem = function(){
-        //$scope.editedTodo = todos[numLI];
 
         var indexOfDone = 0;
 
@@ -123,41 +119,31 @@ function TodoCtrl($scope) {
             }else{
                 indexOfDone = $scope.todos.length;
             }
-            console.log($scope.todos[i].done);
         }
-
-        console.log("indexOfDone: "+indexOfDone);
 
         $scope.todos.splice(indexOfDone, 0, {
             title:"",
             done: false
         });
-
+        $scope.$apply();
 
 
         //move this LI to top
         numLI = indexOfDone;
-        //numLI = $scope.todos.length-1;
-        $scope.editedTodo = todos[numLI];
-        $scope.$apply();
-
         moveLIAmount = -($scope.liHeight * numLI);
-        console.log(moveLIAmount);
         $("ul.notSoClear").addClass("movingUL");
         $("ul.notSoClear").css("-webkit-transform", "translate3d(0,"+moveLIAmount+"px,0)");
+        window.scrollTo(0,0);
 
+        $scope.editedTodo = todos[numLI];
+        $scope.$apply();
 
     };
 
 
 
     function onBodyTouch(event) {
-        console.log("onBodyTouch");
         $scope.createNewLIItem();
-       // $scope.todos.move((liIndex-1),(newLIIndex-1));
-       // $scope.$apply();
-
-
     }
 
     setupEventHandlers();
@@ -169,7 +155,9 @@ function TodoCtrl($scope) {
         END_EVENT = this.touchSupported ? 'touchend' : 'mouseup';
         MOUSEOUT_EVENT = this.touchSupported ? 'mouseout' : 'mouseout';
 
-        var func = function( event ){ onBodyTouch(event), true };
+        var func = function( event ){
+            onBodyTouch(event);
+        };
         $("#bodRst").bind(this.START_EVENT, func );
 
 
